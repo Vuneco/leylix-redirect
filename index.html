@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weiterleitung zur Leylix App</title>
+  <script>
+    window.onload = function () {
+      const ua = navigator.userAgent;
+      if (/android/i.test(ua)) {
+        window.location.href = "https://play.google.com/store/apps/details?id=com.leylix.app";
+      } else if (/iPhone|iPad|iPod/i.test(ua)) {
+        window.location.href = "https://apps.apple.com/app/id123456789"; // ← HIER deine echte iOS-ID rein!
+      } else {
+        document.body.innerHTML = "<h2>Bitte öffne diesen Link auf deinem Smartphone, um zur App weitergeleitet zu werden.</h2>";
+      }
+    };
+  </script>
+</head>
+<body>
+  <p>Wird weitergeleitet …</p>
+</body>
+</html>
