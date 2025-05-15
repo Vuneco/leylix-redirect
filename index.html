@@ -9,11 +9,13 @@
   background: #f5f5f5;
   font-family: Arial, sans-serif;
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* ⬅️ NEU: stapelt Boxen untereinander */
   align-items: center;
+  justify-content: flex-start;
   min-height: 100vh;
   margin: 0;
-  padding: 20px; /* ⬅️ Abstand links/rechts/oben/unten */
+  padding: 40px 20px;
+  gap: 30px; /* Abstand zwischen den Boxen */
 }
     .card {
   background: white;
