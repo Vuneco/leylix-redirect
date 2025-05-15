@@ -3,21 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weiterleitung zur Leylix App</title>
-  <script>
-    window.onload = function () {
-      const ua = navigator.userAgent;
-      if (/android/i.test(ua)) {
-        window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
-      } else if (/iPhone|iPad|iPod/i.test(ua)) {
-        window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905"; // ← HIER deine echte iOS-ID rein!
-      } else {
-        document.body.innerHTML = "<h2>Bitte öffne diesen Link auf deinem Smartphone, um zur App weitergeleitet zu werden.</h2>";
-      }
-    };
-  </script>
+  <title>Willkommen bei Leylix</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+    .message {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .countdown {
+      font-size: 16px;
+      color: gray;
+    }
+  </style>
 </head>
 <body>
-  <p>Wird weitergeleitet …</p>
+  <img src="https://leylix.com/logo.png" alt="Leylix Logo" />
+  <div class="message">Schön, dass du da bist! 🥳<br />Du wirst gleich zur App weitergeleitet …</div>
+  <div class="countdown" id="counter">5 Sekunden</div>
+
+  <script>
+    let seconds = 5;
+    const counter = document.getElementById("counter");
+
+    const countdown = setInterval(() => {
+      seconds--;
+      counter.textContent = seconds + " Sekunden";
+      if (seconds <= 0) {
+        clearInterval(countdown);
+
+        const ua = navigator.userAgent;
+        if (/android/i.test(ua)) {
+          window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
+        } else if (/iPhone|iPad|iPod/i.test(ua)) {
+          window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
+        } else {
+          window.location.href = "https://leylix.com";
+        }
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
