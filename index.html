@@ -6,44 +6,69 @@
   <title>Willkommen bei Leylix</title>
   <style>
     body {
+      background: #f5f5f5;
       font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
-    img {
-      width: 120px;
+
+    .card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .card img {
+      width: 100px;
       margin-bottom: 20px;
     }
+
     .message {
-  font-size: 20px;
-  color: #333;
-  margin-top: 20px;
-  line-height: 1.6;
-}
-    .countdown {
-      font-size: 16px;
-      color: blue;
+      font-size: 18px;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .countdown-box {
+      display: inline-block;
+      background-color: #eee;
+      color: #333;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
     }
   </style>
 </head>
 <body>
-  <img src="LeylixLogoMoreColor-FontGoldman (2).png" alt="Leylix Logo" />
-  <div class="message">
-  Bereit für dein nächstes Kapitel?<br />
-  Mit Leylix kannst du Events erstellen,<br />
-  Workshops anbieten oder dein Business starten –<br />
-  alles an einem Ort. 
-</div>
-
-  <div class="countdown" id="counter">5 Sekunden</div>
+  <div class="card">
+    <img src="LeylixLogoMoreColor-FontGoldman (2).png" alt="Leylix Logo" />
+    <div class="message">
+      Willkommen bei Leylix! <br />
+      Nach deiner Registrierung kannst du sofort loslegen –<br />
+      erstelle Events, biete Workshops an oder<br />
+      bring dein eigenes Business ins Rollen.<br /><br />
+      Starte jetzt mit deiner Idee – Leylix macht den Rest.
+    </div>
+    <div class="countdown-box" id="counter">5 Sekunden …</div>
+  </div>
 
   <script>
-    let seconds = 5;
+    let seconds = 10;
     const counter = document.getElementById("counter");
 
     const countdown = setInterval(() => {
       seconds--;
-      counter.textContent = seconds + " Sekunden";
+      counter.textContent = seconds + " Sekunden …";
       if (seconds <= 0) {
         clearInterval(countdown);
 
