@@ -98,6 +98,16 @@
   margin: 0;
   text-align: center;
 }
+    @keyframes pulse {
+  0% { transform: scale(1); background-color: #f8d7da; }
+  50% { transform: scale(1.05); background-color: #f5c6cb; }
+  100% { transform: scale(1); background-color: #f8d7da; }
+}
+.pulse-warning {
+  animation: pulse 1s infinite;
+  color: #b30000;
+  font-weight: bold;
+}
     
   </style>
 </head>
@@ -157,24 +167,31 @@ Danke für deinen Support 💛<br />
 
   <script>
     let seconds = 10;
-    const counter = document.getElementById("counter");
+const counter = document.getElementById("counter");
 
-    const countdown = setInterval(() => {
-      seconds--;
-      counter.textContent = seconds + " Sekunden …";
-      if (seconds <= 0) {
-        clearInterval(countdown);
+const countdown = setInterval(() => {
+  seconds--;
 
-        const ua = navigator.userAgent;
-        if (/android/i.test(ua)) {
-          window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
-        } else if (/iPhone|iPad|iPod/i.test(ua)) {
-          window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
-        } else {
-          window.location.href = "https://leylix.com";
-        }
-      }
-    }, 1000);
+  // Farbwechsel + Puls-Effekt bei 6 Sekunden
+  if (seconds <= 6) {
+    counter.classList.add("pulse-warning");
+  }
+
+  counter.textContent = seconds + " Sekunden …";
+
+  if (seconds <= 0) {
+    clearInterval(countdown);
+
+    const ua = navigator.userAgent;
+    if (/android/i.test(ua)) {
+      window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
+    } else if (/iPhone|iPad|iPod/i.test(ua)) {
+      window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
+    } else {
+      window.location.href = "https://leylix.com";
+    }
+  }
+}, 1000);
   </script>
 </body>
 </html>
