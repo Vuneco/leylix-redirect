@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Willkommen bei Leylix</title>
@@ -102,6 +103,11 @@
   margin: 0;
   text-align: center;
 }
+    @keyframes pulseButton {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+  }
     @keyframes pulse {
   0% { transform: scale(1); background-color: #f8d7da; }
   50% { transform: scale(1.05); background-color: #f5c6cb; }
@@ -135,7 +141,16 @@ Du kannst ein Startup gründen und deinen Erfolg selbst bestimmen.<br /><br />
 Wir würden uns sehr freuen wenn du –<br />
 Leylix an Freunde & Partner empfehlen würdest.<br /><br />
 
-Chatpit → Oben rechts 🔍 → Kontakte → <span style="background-color:#007bff;color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;font-family:sans-serif;">Invite</span>
+Chatpit → Oben rechts 🔍 → Kontakte → <span style="background-color:#a14ae4;
+             color:#fff;
+             padding:6px 16px;
+             border-radius:8px;
+             font-size:14px;
+             font-family:sans-serif;
+             animation: pulseButton 1.8s infinite;
+             display:inline-block;">
+  Invite
+</span>
  <br /><br />
 
 Danke für deinen Support 💛<br />
