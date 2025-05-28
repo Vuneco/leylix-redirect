@@ -216,20 +216,19 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
-    const redirected = localStorage.getItem("redirected");
+    const box = document.querySelector(".countdown-box");
+    const redirected = sessionStorage.getItem("wasRedirected");
 
     function showAppIcon() {
-      if (counter) counter.style.display = "none";
-
+      if (counter) counter.remove(); // Timer ausblenden
       const appIcon = document.createElement("img");
       appIcon.src = "appIcon.png";
-      appIcon.alt = "Leylix App Icon";
-      appIcon.style.width = "90px";
+      appIcon.alt = "Leylix App";
+      appIcon.style.width = "100px";
       appIcon.style.marginTop = "20px";
+      appIcon.style.borderRadius = "20px";
       appIcon.style.cursor = "pointer";
-      appIcon.style.borderRadius = "16px";
-      appIcon.style.boxShadow = "0 6px 20px rgba(0,0,0,0.15)";
-      appIcon.title = "Öffne die App";
+      appIcon.title = "App öffnen";
 
       appIcon.addEventListener("click", () => {
         const ua = navigator.userAgent;
@@ -242,9 +241,7 @@
         }
       });
 
-      if (counter && counter.parentNode) {
-        counter.parentNode.appendChild(appIcon);
-      }
+      box.appendChild(appIcon);
     }
 
     if (redirected === "true") {
@@ -255,15 +252,14 @@
       const countdown = setInterval(() => {
         seconds--;
 
-        if (seconds <= 6) {
-          counter.classList.add("pulse-warning");
+        if (counter) {
+          counter.textContent = seconds + " Sekunden …";
+          if (seconds <= 6) counter.classList.add("pulse-warning");
         }
-
-        counter.textContent = seconds + " Sekunden …";
 
         if (seconds <= 0) {
           clearInterval(countdown);
-          localStorage.setItem("redirected", "true");
+          sessionStorage.setItem("wasRedirected", "true");
 
           const ua = navigator.userAgent;
           if (/android/i.test(ua)) {
