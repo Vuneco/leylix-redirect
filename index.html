@@ -262,7 +262,7 @@
   clearInterval(countdown);
 
   // Timer verstecken
-  document.querySelector(".countdown-box").style.display = "none";
+  if (counter) counter.style.display = "none";
 
   // Flag setzen, dass Weiterleitung passiert ist
   localStorage.setItem("leylix_redirected", "1");
