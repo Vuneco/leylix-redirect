@@ -259,17 +259,23 @@
         }
 
         if (seconds <= 0) {
-          clearInterval(countdown);
+  clearInterval(countdown);
 
-          const ua = navigator.userAgent;
-          if (/android/i.test(ua)) {
-            window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
-          } else if (/iPhone|iPad|iPod/i.test(ua)) {
-            window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
-          } else {
-            window.location.href = "https://leylix.com";
-          }
-        }
+  // Timer verstecken
+  document.querySelector(".countdown-box").style.display = "none";
+
+  // Flag setzen, dass Weiterleitung passiert ist
+  localStorage.setItem("leylix_redirected", "1");
+
+  const ua = navigator.userAgent;
+  if (/android/i.test(ua)) {
+    window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
+  } else {
+    window.location.href = "https://leylix.com";
+  }
+}
       }, 1000);
     }
   });
