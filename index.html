@@ -256,7 +256,7 @@
       box.appendChild(appText);
     }
 
-    if (navType === "back_forward" || localStorage.getItem("leylix_redirected") === "1") {
+    if (navType === "back_forward" || sessionStorage.getItem("leylix_redirected") === "1") {
       showAppIcon();
     } else {
       let seconds = 15;
@@ -271,7 +271,7 @@
         if (seconds <= 0) {
           clearInterval(countdown);
           box.style.display = "none"; // Timer ausblenden
-          localStorage.setItem("leylix_redirected", "1");
+          sessionStorage.setItem("leylix_redirected", "1");
 
           const ua = navigator.userAgent;
           if (/android/i.test(ua)) {
