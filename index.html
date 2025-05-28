@@ -217,10 +217,11 @@
     document.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
     const box = document.querySelector(".countdown-box");
-    const redirected = sessionStorage.getItem("wasRedirected");
+
+    const navType = performance.getEntriesByType("navigation")[0]?.type || "navigate";
 
     function showAppIcon() {
-      if (counter) counter.remove(); // Timer ausblenden
+      if (counter) counter.remove();
       const appIcon = document.createElement("img");
       appIcon.src = "appIcon.png";
       appIcon.alt = "Leylix App";
@@ -244,11 +245,11 @@
       box.appendChild(appIcon);
     }
 
-    if (redirected === "true") {
+    // Prüfen ob zurückgekommen (back_forward) → App-Icon zeigen
+    if (navType === "back_forward") {
       showAppIcon();
     } else {
       let seconds = 15;
-
       const countdown = setInterval(() => {
         seconds--;
 
@@ -259,7 +260,6 @@
 
         if (seconds <= 0) {
           clearInterval(countdown);
-          sessionStorage.setItem("wasRedirected", "true");
 
           const ua = navigator.userAgent;
           if (/android/i.test(ua)) {
