@@ -246,9 +246,9 @@
     }
 
     // Prüfen ob zurückgekommen (back_forward) → App-Icon zeigen
-    if (navType === "back_forward") {
-      showAppIcon();
-    } else {
+    if (navType === "back_forward" && localStorage.getItem("leylix_redirected") === "1") {
+  showAppIcon();
+} else {
       let seconds = 15;
       const countdown = setInterval(() => {
         seconds--;
