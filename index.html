@@ -256,34 +256,36 @@
       box.appendChild(appText);
     }
 
-    if (navType === "back_forward" || sessionStorage.getItem("leylix_redirected") === "1") {
-      showAppIcon();
-    } else {
-      let seconds = 15;
-      const countdown = setInterval(() => {
-        seconds--;
+    if (navType === "back_forward" && sessionStorage.getItem("leylix_redirected") === "1") {
+  showAppIcon();
+} else {
+  sessionStorage.removeItem("leylix_redirected");
 
-        if (counter) {
-          counter.textContent = seconds + " Sekunden …";
-          if (seconds <= 6) counter.classList.add("pulse-warning");
-        }
+  let seconds = 15;
+  const countdown = setInterval(() => {
+    seconds--;
 
-        if (seconds <= 0) {
-          clearInterval(countdown);
-          box.style.display = "none"; // Timer ausblenden
-          sessionStorage.setItem("leylix_redirected", "1");
-
-          const ua = navigator.userAgent;
-          if (/android/i.test(ua)) {
-            window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
-          } else if (/iPhone|iPad|iPod/i.test(ua)) {
-            window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
-          } else {
-            window.location.href = "https://leylix.com";
-          }
-        }
-      }, 1000);
+    if (counter) {
+      counter.textContent = seconds + " Sekunden …";
+      if (seconds <= 6) counter.classList.add("pulse-warning");
     }
+
+    if (seconds <= 0) {
+      clearInterval(countdown);
+      document.querySelector(".countdown-box").style.display = "none";
+      sessionStorage.setItem("leylix_redirected", "1");
+
+      const ua = navigator.userAgent;
+      if (/android/i.test(ua)) {
+        window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
+      } else if (/iPhone|iPad|iPod/i.test(ua)) {
+        window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
+      } else {
+        window.location.href = "https://leylix.com";
+      }
+    }
+  }, 1000);
+}
   });
   </script>
 </body>
