@@ -163,7 +163,9 @@
   </p>
   <div class="countdown-box" id="counter">15 Sekunden …</div>
   <img id="leylixApp" src="appIcon.png" alt="Leylix App" style="width: 100px; margin-top: 20px; border-radius: 20px; cursor: pointer; display: none;" />
-
+  <p id="appDownloadText" style="margin-top: 10px; color: #444; font-size: 15px; display: none;">
+  Jetzt Leylix downloaden
+  </p>
 </div>
 
   <div class="sub-card">
@@ -223,7 +225,9 @@
 
   function showAppIcon() {
     if (counter) counter.style.display = "none";
-    if (appIcon) appIcon.style.display = "block";
+  if (appIcon) appIcon.style.display = "block";
+  const downloadText = document.getElementById("appDownloadText");
+  if (downloadText) downloadText.style.display = "block";
   }
 
   // Wenn zurückgekommen UND vorher umgeleitet → Zeige App-Icon
