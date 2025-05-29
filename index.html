@@ -218,8 +218,8 @@
     const box = document.querySelector(".countdown-box");
     if (!box) return;
 
-    const existingIcon = document.getElementById("leylix-app-icon");
-    if (existingIcon) return; // nicht doppelt anzeigen
+    // Entferne alten Inhalt
+    box.innerHTML = "";
 
     const appIcon = document.createElement("img");
     appIcon.src = "appIcon.png";
@@ -242,19 +242,25 @@
       }
     });
 
-    box.innerHTML = ""; // vorherigen Inhalt (z. B. Timer) entfernen
     box.appendChild(appIcon);
   }
 
-  // Wenn Seite geladen wird
   window.addEventListener("DOMContentLoaded", () => {
     const counter = document.getElementById("counter");
+    const box = document.querySelector(".countdown-box");
 
-    // Wenn nicht zurückgekommen → normalen Ablauf
-    if (!sessionStorage.getItem("leylix_redirected")) {
+    // Prüfen: normaler Start oder zurückgekommen?
+    const navType = performance.getEntriesByType("navigation")[0]?.type || "navigate";
+
+    if (navType === "back_forward" && sessionStorage.getItem("leylix_redirected") === "1") {
+      showAppIcon();
+    } else {
+      sessionStorage.removeItem("leylix_redirected"); // alles zurücksetzen beim normalen Laden
+
       let seconds = 15;
       const countdown = setInterval(() => {
         seconds--;
+
         if (counter) {
           counter.textContent = seconds + " Sekunden …";
           if (seconds <= 6) counter.classList.add("pulse-warning");
@@ -262,8 +268,14 @@
 
         if (seconds <= 0) {
           clearInterval(countdown);
+
+          // Timer ausblenden
+          if (box) box.style.display = "none";
+
+          // redirect merken
           sessionStorage.setItem("leylix_redirected", "1");
 
+          // Weiterleitung zum Store
           const ua = navigator.userAgent;
           if (/android/i.test(ua)) {
             window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
@@ -277,8 +289,8 @@
     }
   });
 
-  // Wenn zurückgekommen (auch bei Cache)
-  window.addEventListener("pageshow", (event) => {
+  // Backup: falls `pageshow` nach Zurück nicht greift (z. B. Safari)
+  window.addEventListener("pageshow", () => {
     if (sessionStorage.getItem("leylix_redirected") === "1") {
       showAppIcon();
     }
