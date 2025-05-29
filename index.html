@@ -216,23 +216,56 @@
 </div>
 
   <script>
-    function showAppIcon() {
-    const box = document.querySelector(".countdown-box");
-    if (!box) return;
+    document.addEventListener("DOMContentLoaded", () => {
+  const counter = document.getElementById("counter");
+  const appIcon = document.getElementById("leylixApp");
+  const navType = performance.getEntriesByType("navigation")[0]?.type || "navigate";
 
-    // Entferne alten Inhalt
-    box.innerHTML = "";
+  function showAppIcon() {
+    if (counter) counter.style.display = "none";
+    if (appIcon) appIcon.style.display = "block";
+  }
 
-    const appIcon = document.createElement("img");
-    appIcon.src = "appIcon.png";
-    appIcon.alt = "Leylix App";
-    appIcon.id = "leylix-app-icon";
-    appIcon.style.width = "100px";
-    appIcon.style.marginTop = "20px";
-    appIcon.style.borderRadius = "20px";
-    appIcon.style.cursor = "pointer";
-    appIcon.title = "App öffnen";
+  // Wenn zurückgekommen UND vorher umgeleitet → Zeige App-Icon
+  if (navType === "back_forward" && sessionStorage.getItem("leylix_redirected") === "1") {
+    showAppIcon();
+  } else {
+    // Normales Laden → Entferne redirect-Flag
+    sessionStorage.removeItem("leylix_redirected");
 
+    let seconds = 15;
+    const countdown = setInterval(() => {
+      seconds--;
+
+      if (counter) {
+        counter.textContent = seconds + " Sekunden …";
+        if (seconds <= 6) counter.classList.add("pulse-warning");
+      }
+
+      if (seconds <= 0) {
+        clearInterval(countdown);
+
+        // Timer verstecken, App-Icon zeigen
+        showAppIcon();
+
+        // Flag speichern
+        sessionStorage.setItem("leylix_redirected", "1");
+
+        // Weiterleiten
+        const ua = navigator.userAgent;
+        if (/android/i.test(ua)) {
+          window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
+        } else if (/iPhone|iPad|iPod/i.test(ua)) {
+          window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
+        } else {
+          window.location.href = "https://leylix.com";
+        }
+      }
+    }, 1000);
+  }
+
+  // Klick auf App-Icon → Weiterleiten
+  if (appIcon) {
     appIcon.addEventListener("click", () => {
       const ua = navigator.userAgent;
       if (/android/i.test(ua)) {
@@ -243,60 +276,8 @@
         window.location.href = "https://leylix.com";
       }
     });
-
-    box.appendChild(appIcon);
   }
-
-  window.addEventListener("DOMContentLoaded", () => {
-    const counter = document.getElementById("counter");
-    const box = document.querySelector(".countdown-box");
-
-    // Prüfen: normaler Start oder zurückgekommen?
-    const navType = performance.getEntriesByType("navigation")[0]?.type || "navigate";
-
-    if (navType === "back_forward" && sessionStorage.getItem("leylix_redirected") === "1") {
-      showAppIcon();
-    } else {
-      sessionStorage.removeItem("leylix_redirected"); // alles zurücksetzen beim normalen Laden
-
-      let seconds = 15;
-      const countdown = setInterval(() => {
-        seconds--;
-
-        if (counter) {
-          counter.textContent = seconds + " Sekunden …";
-          if (seconds <= 6) counter.classList.add("pulse-warning");
-        }
-
-        if (seconds <= 0) {
-          clearInterval(countdown);
-
-          // Timer ausblenden
-          if (box) box.style.display = "none";
-
-          // redirect merken
-          sessionStorage.setItem("leylix_redirected", "1");
-
-          // Weiterleitung zum Store
-          const ua = navigator.userAgent;
-          if (/android/i.test(ua)) {
-            window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
-          } else if (/iPhone|iPad|iPod/i.test(ua)) {
-            window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
-          } else {
-            window.location.href = "https://leylix.com";
-          }
-        }
-      }, 1000);
-    }
-  });
-
-  // Backup: falls `pageshow` nach Zurück nicht greift (z. B. Safari)
-  window.addEventListener("pageshow", () => {
-    if (sessionStorage.getItem("leylix_redirected") === "1") {
-      showAppIcon();
-    }
-  });
+});
   </script>
 </body>
 </html>
