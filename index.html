@@ -214,17 +214,17 @@
 </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-  const counter = document.getElementById("counter");
-  const box = document.querySelector(".countdown-box");
+    function showAppIcon() {
+    const box = document.querySelector(".countdown-box");
+    if (!box) return;
 
-  const navType = performance.getEntriesByType("navigation")[0]?.type || "navigate";
+    const existingIcon = document.getElementById("leylix-app-icon");
+    if (existingIcon) return; // nicht doppelt anzeigen
 
-  function showAppIcon() {
-    if (counter) counter.remove();
     const appIcon = document.createElement("img");
     appIcon.src = "appIcon.png";
     appIcon.alt = "Leylix App";
+    appIcon.id = "leylix-app-icon";
     appIcon.style.width = "100px";
     appIcon.style.marginTop = "20px";
     appIcon.style.borderRadius = "20px";
@@ -242,39 +242,47 @@
       }
     });
 
+    box.innerHTML = ""; // vorherigen Inhalt (z. B. Timer) entfernen
     box.appendChild(appIcon);
   }
 
-  if (navType === "back_forward" && sessionStorage.getItem("leylix_redirected") === "1") {
-    showAppIcon();
-  } else {
-    sessionStorage.removeItem("leylix_redirected");
+  // Wenn Seite geladen wird
+  window.addEventListener("DOMContentLoaded", () => {
+    const counter = document.getElementById("counter");
 
-    let seconds = 15;
-    const countdown = setInterval(() => {
-      seconds--;
-      if (counter) {
-        counter.textContent = seconds + " Sekunden …";
-        if (seconds <= 6) counter.classList.add("pulse-warning");
-      }
-
-      if (seconds <= 0) {
-        clearInterval(countdown);
-        if (counter) counter.remove();
-        sessionStorage.setItem("leylix_redirected", "1");
-
-        const ua = navigator.userAgent;
-        if (/android/i.test(ua)) {
-          window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
-        } else if (/iPhone|iPad|iPod/i.test(ua)) {
-          window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
-        } else {
-          window.location.href = "https://leylix.com";
+    // Wenn nicht zurückgekommen → normalen Ablauf
+    if (!sessionStorage.getItem("leylix_redirected")) {
+      let seconds = 15;
+      const countdown = setInterval(() => {
+        seconds--;
+        if (counter) {
+          counter.textContent = seconds + " Sekunden …";
+          if (seconds <= 6) counter.classList.add("pulse-warning");
         }
-      }
-    }, 1000);
-  }
-});
+
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          sessionStorage.setItem("leylix_redirected", "1");
+
+          const ua = navigator.userAgent;
+          if (/android/i.test(ua)) {
+            window.location.href = "https://play.google.com/store/apps/details?id=com.leylix";
+          } else if (/iPhone|iPad|iPod/i.test(ua)) {
+            window.location.href = "https://apps.apple.com/us/app/leylix/id6657989905";
+          } else {
+            window.location.href = "https://leylix.com";
+          }
+        }
+      }, 1000);
+    }
+  });
+
+  // Wenn zurückgekommen (auch bei Cache)
+  window.addEventListener("pageshow", (event) => {
+    if (sessionStorage.getItem("leylix_redirected") === "1") {
+      showAppIcon();
+    }
+  });
   </script>
 </body>
 </html>
