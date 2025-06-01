@@ -218,6 +218,11 @@
 </div>
 
   <script>
+// ⬇️ Tracking an AWS Lambda senden
+const urlParams = new URLSearchParams(window.location.search);
+const scanId = urlParams.get("id") || "unknown";
+fetch(`https://rsrmgh5wfqaqmv2ee2wma44yoa0adaif.lambda-url.eu-central-1.on.aws/?id=${encodeURIComponent(scanId)}`)
+  .catch(err => console.error("Tracking fehlgeschlagen:", err));
     document.addEventListener("DOMContentLoaded", () => {
   const counter = document.getElementById("counter");
   const appIcon = document.getElementById("leylixApp");
